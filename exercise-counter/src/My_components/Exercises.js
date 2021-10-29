@@ -2,6 +2,9 @@ import React from 'react'
 import {Activity} from "./Activity"
 
 export const Exercises = (props) => {
+    const divStyle = {
+        width: "300px",
+      };
     return (
         <div className="container">
             <h2>Exercises</h2>
