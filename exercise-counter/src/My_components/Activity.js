@@ -2,6 +2,12 @@ import React from 'react'
 
 export const Activity = ({activity,onDelete,onSet}) => {
 
+    let audio = new Audio('https://www.soundjay.com/buttons/sounds/beep-07a.mp3');
+
+    const playsound = ()=>{
+        audio.play();
+    }
+
     const appendid = (str, c)=>{
         str+=c
         return str
@@ -19,10 +25,10 @@ export const Activity = ({activity,onDelete,onSet}) => {
     return (
         <div className="row g-2">
             <div className="col-4 row align-items-center">
-                <button className="col-2 btn btn-success btn-sm mx-2">Play</button>
+                <button className="col-2 btn btn-primary btn-sm mx-2" onClick={()=>{playsound()}}>Play</button>
                 <div className="col-7">
                     <div className="progress">
-                        <div className="progress-bar progress-bar-striped bg-success" id={pgid} style={pgBar} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                            <div class="progress-bar progress-bar-striped" role="progressbar" style={pgBar} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
