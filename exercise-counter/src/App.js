@@ -32,7 +32,56 @@ function App() {
       return ans
     }
 
-  let t=0
+  let cnt=0
+  const playafter = (sno,d,w,t,x)=>{
+    playsound()
+    cnt++
+    if(cnt%2===1 && cnt!==1)
+    {
+      let pgid=appendid(sno,'p')
+      let pgbar=document.getElementById(pgid)
+      let inc=((cnt-1)/(2*t))*100
+      pgbar.style="width: "+inc+"%"
+      pgbar.innerHTML=(cnt-1)/2
+    }
+
+    let y=x
+    setTimeout(()=>{
+      if(x===w) 
+      {
+        x=d
+      }
+      else x=w
+      if(cnt==2*t+1) return
+      playafter(sno,d,w,t,x)
+    },y*1000)
+  }
+
+  const getEx =(activity)=>{
+    let n=exercises.length
+    for(let i=0;i<n;i++)
+    {
+      if(exercises[i]===activity)
+      {
+        playone(i)
+        break;
+      }
+    }
+  }
+
+  const playone = (n)=>{
+    if(n===exercises.length) return
+    let sno=exercises[n].sno
+    let d=exercises[n].duration
+    let w=exercises[n].wait
+    let t=exercises[n].times
+
+    if(d===0) return
+
+     cnt=0
+     playafter(sno,d,w,t,d)
+    setTimeout(()=>{playone(n+1)},((d+w)*t+7)*1000)
+  }
 
   const onStart = ()=>{
     let n=exercises.length
@@ -59,7 +108,6 @@ function App() {
     let durid=appendid(activity.sno,'d')
     let waitid=appendid(activity.sno,'w')
     let timesid=appendid(activity.sno,'t')
-    let pgid=appendid(activity.sno,'p')
     
     activity.name=document.getElementById(activity.sno).value
     activity.duration=strToint(document.getElementById(durid).value)
@@ -83,23 +131,23 @@ function App() {
     {
       sno: 1,
       name: "bruh",
-      duration: 5,
-      wait: 2,
-      times: 2,
+      duration: 0,
+      wait: 0,
+      times: 0,
     },
     {
       sno: 2,
       name: "bruh2",
-      duration: 5,
-      wait: 7,
-      times: 4,
+      duration: 0,
+      wait: 0,
+      times: 0,
     }
   ]
   );
   return (
     <>
     <Header title="Exercise counter"/>
-    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart}/>
+    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart} getEx={getEx}/>
     </>
   );
 }
