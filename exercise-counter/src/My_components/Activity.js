@@ -1,9 +1,6 @@
 import React from 'react'
 
-export const Activity = ({activity,onDelete,onSet}) => {
-
-    
-
+export const Activity = ({activity,onDelete,onSet,getEx}) => {
     const appendid = (str, c)=>{
         str+=c
         return str
@@ -15,16 +12,16 @@ export const Activity = ({activity,onDelete,onSet}) => {
     let pgid=appendid(activity.sno,'p')
 
     const pgBar = {
-        width: "25%",
+        width: "0%",
       };
 
     return (
         <div className="row g-2">
             <div className="col-4 row align-items-center">
-                <button className="col-2 btn btn-primary btn-sm mx-2" >Play</button>
+                <button className="col-2 btn btn-primary btn-sm mx-2" onClick={()=>{getEx(activity)}}>Play</button>
                 <div className="col-7">
                     <div className="progress">
-                            <div className="progress-bar progress-bar-striped" role="progressbar" style={pgBar} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div className="progress-bar progress-bar-striped" id={pgid} role="progressbar" style={pgBar} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">0</div>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ export const Exercises = (props) => {
                 </div>
             </div>
             {props.exercises.map((activity)=>{
-                return <Activity activity={activity} key={activity.sno} onDelete={props.onDelete} onSet={props.onSet}/>
+                return <Activity activity={activity} key={activity.sno} onDelete={props.onDelete} onSet={props.onSet} getEx={props.getEx}/>
             })}
         </div>
     )
