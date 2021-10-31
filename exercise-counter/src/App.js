@@ -10,14 +10,10 @@ function App() {
     }))
   }
 
-  const ntg =()=>{
-    console.log("huh")
-  }
-
   let audio = new Audio('https://www.soundjay.com/buttons/sounds/beep-07a.mp3');
 
     const playsound = ()=>{
-        audio.play();
+      audio.play();
     }
 
     const strToint = (str)=>{
@@ -52,7 +48,7 @@ function App() {
         x=d
       }
       else x=w
-      if(cnt==2*t+1) return
+      if(cnt===2*t+1) return
       playafter(sno,d,w,t,x)
     },y*1000)
   }
@@ -84,19 +80,7 @@ function App() {
   }
 
   const onStart = ()=>{
-    let n=exercises.length
-    for(let i=0;i<n;i++)
-    {
-      let x=exercises[i].duration
-      let y=exercises[i].wait
-      let z=exercises[i].times
-
-      for(let j=0;j<z;j++)
-      {
-        playsound()
-        setTimeout(()=>{playsound()},x*1000)
-      }
-    }
+    playone(0)
   }
 
   const appendid = (str, c)=>{
