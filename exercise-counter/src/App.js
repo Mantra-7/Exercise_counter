@@ -4,6 +4,7 @@ import {Exercises} from "./My_components/Exercises"
 import React, { useState } from 'react';
 
 function App() {
+
   const onDelete = (activity)=>{
     setExercises(exercises.filter((new_activity)=>{
       return new_activity!==activity
@@ -114,24 +115,52 @@ function App() {
   const [exercises, setExercises] = useState([
     {
       sno: 1,
-      name: "bruh",
+      name: "Ex1",
       duration: 0,
       wait: 0,
       times: 0,
     },
     {
       sno: 2,
-      name: "bruh2",
+      name: "Ex2",
       duration: 0,
       wait: 0,
       times: 0,
     }
   ]
   );
+
+  
+  const addex = ()=>{
+    let n=exercises.length
+
+    let sn
+    if(n===0) sn=0
+    else sn=exercises[n-1].sno
+    let nactivity={
+      sno:sn+1,
+      name:"Ex"+sn+1,
+      duration:0,
+      wait:0,
+      times:0,
+    }
+
+    let nnactivity={
+      sno:sn+2,
+      name:"Ex"+sn+2,
+      duration:0,
+      wait:0,
+      times:0,
+    }
+    exercises.push(nactivity)
+    exercises.push(nnactivity)
+    onDelete(nnactivity)
+}
+
   return (
     <>
     <Header title="Exercise counter"/>
-    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart} getEx={getEx}/>
+    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart} getEx={getEx} addex={addex}/>
     </>
   );
 }

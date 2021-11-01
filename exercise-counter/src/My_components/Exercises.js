@@ -1,10 +1,12 @@
-import React from 'react'
+
 import {Activity} from "./Activity"
+import React, { useState } from 'react';
+
 
 export const Exercises = (props) => {
 
     return (
-        <div className="container my-3">
+        <div  className="container my-3">
             <div className="row g-2">
                 <div className="col">
                     <h1>Exercises</h1>
@@ -16,6 +18,8 @@ export const Exercises = (props) => {
             {props.exercises.map((activity)=>{
                 return <Activity activity={activity} key={activity.sno} onDelete={props.onDelete} onSet={props.onSet} getEx={props.getEx}/>
             })}
+
+            <button className="btn btn-sm btn-success" onClick={()=>{props.addex()}}>Add Exercise</button>
         </div>
     )
 }

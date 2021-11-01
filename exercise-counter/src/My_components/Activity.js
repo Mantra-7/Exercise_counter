@@ -11,9 +11,10 @@ export const Activity = ({activity,onDelete,onSet,getEx}) => {
     let timesid=appendid(activity.sno,'t')
     let pgid=appendid(activity.sno,'p')
 
-    const pgBar = {
+    const pgBar = { 
         width: "0%",
       };
+
 
     return (
         <div className="row g-2">
