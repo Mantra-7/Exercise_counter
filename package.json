@@ -1,6 +1,6 @@
 {
   "name": "exercise-counter",
-  "homepage": "http://mantra-7.github.io/Exercise-counter",
+  "homepage": "http://mantra-7.github.io/Exercise_counter",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
