@@ -1,6 +1,6 @@
 
 import {Activity} from "./Activity"
-import React, { useState } from 'react';
+
 
 
 export const Exercises = (props) => {
@@ -16,7 +16,7 @@ export const Exercises = (props) => {
                 </div>
             </div>
             {props.exercises.map((activity)=>{
-                return <Activity activity={activity} key={activity.sno} onDelete={props.onDelete} onSet={props.onSet} getEx={props.getEx}/>
+                return <Activity activity={activity} key={activity.sno} onDelete={props.onDelete} onSet={props.onSet} playpause={props.playpause}/>
             })}
 
             <button className="btn btn-sm btn-success" onClick={()=>{props.addex()}}>Add Exercise</button>

@@ -29,59 +29,112 @@ function App() {
       return ans
     }
 
-  let cnt=0
-  const playafter = (sno,d,w,t,x)=>{
-    playsound()
-    cnt++
-    if(cnt%2===1 && cnt!==1)
+  let strt=false
+
+  const playpause = (activity) =>{
+    let i
+    for(let x=0;x<exercises.length;x++)
     {
-      let pgid=appendid(sno,'p')
-      let pgbar=document.getElementById(pgid)
-      let inc=((cnt-1)/(2*t))*100
-      pgbar.style="width: "+inc+"%"
-      pgbar.innerHTML=(cnt-1)/2
+      if(exercises[x].sno===activity.sno)
+      {
+        i=x
+        break
+      }
     }
 
-    let y=x
-    setTimeout(()=>{
-      if(x===w) 
+    let ppid=appendid(activity.sno,'q')
+    let ppbtn=document.getElementById(ppid)
+
+    if(activity.times!==0)
+    {
+    if(activity.check)
+    {
+      ppbtn.innerHTML="Pause"
+      ppbtn.style.background="rgb(200,200,0,1)"
+      activity.check=false
+       playone(activity,i,activity.cur)
+    }
+    else
+    {
+      ppbtn.style.background="#0d6efd"
+      ppbtn.innerHTML="Play"
+      activity.check=true
+    }
+  }
+  }
+
+  const playone = (activity,i,temp)=>{
+
+    if(activity.cur===2*activity.times+1) 
+    {
+      activity.cur=0
+      playpause(activity)
+      let pgid=appendid(activity.sno,'p')
+      let pgbar=document.getElementById(pgid)
+      pgbar.style="width: 0%"
+      if(strt) 
       {
-        x=d
+        if(i+1===exercises.length) 
+        {
+          strt=false
+          return
+        }
+        exercises[i+1].cur=0
+        playpause(exercises[i+1])
       }
-      else x=w
-      if(cnt===2*t+1) return
-      playafter(sno,d,w,t,x)
+      return
+    }
+
+    if(activity.check)
+    {
+      return
+    }
+    if(activity.cur===0) 
+    {
+      playsound() 
+      activity.cur++
+    }
+    else if(activity.cur!==temp) 
+    {
+      playsound()
+      activity.cur++
+    }
+    else temp--
+
+    if(activity.cur%2===1 && activity.cur!==1)
+    {
+      let pgid=appendid(activity.sno,'p')
+      let pgbar=document.getElementById(pgid)
+      let inc=((activity.cur-1)/(2*activity.times))*100
+      pgbar.style="width: "+inc+"%"
+      pgbar.innerHTML=(activity.cur-1)/2
+    }
+
+    let y
+    if(activity.cur%2===1) y=activity.duration
+    else y=activity.wait
+
+    if(activity.cur===2*activity.times)
+    {
+      setTimeout(()=>{
+        playsound()
+      },(y+0.5)*1000)
+    }
+    setTimeout(()=>{
+      playone(activity,i,temp)
     },y*1000)
   }
 
-  const getEx =(activity)=>{
-    let n=exercises.length
-    for(let i=0;i<n;i++)
-    {
-      if(exercises[i]===activity)
-      {
-        playone(i)
-        break;
-      }
-    }
-  }
-
-  const playone = (n)=>{
-    if(n===exercises.length) return
-    let sno=exercises[n].sno
-    let d=exercises[n].duration
-    let w=exercises[n].wait
-    let t=exercises[n].times
-
-    if(d===0) return
-
-     cnt=0
-     playafter(sno,d,w,t,d)
-    setTimeout(()=>{playone(n+1)},((d+w)*t+7)*1000)
-  }
-
   const onStart = ()=>{
-    playone(0)
+    strt=true
+    for(let i=0;i<exercises.length;i++)
+    {
+      exercises[i].cur=0
+      let pgid=appendid(exercises[i].sno,'p')
+      let pgbar=document.getElementById(pgid)
+      pgbar.style="width: 0%"
+    }
+    playpause(exercises[0])
   }
 
   const appendid = (str, c)=>{
@@ -98,6 +151,8 @@ function App() {
     activity.duration=strToint(document.getElementById(durid).value)
     activity.wait=strToint(document.getElementById(waitid).value)
     activity.times=strToint(document.getElementById(timesid).value)
+    activity.cur=0
+    activity.check=true
 
     let n=exercises.length
     for(let i=0;i<n-1;i++)
@@ -119,6 +174,8 @@ function App() {
       duration: 0,
       wait: 0,
       times: 0,
+      cur: 0,
+      check: true
     },
     {
       sno: 2,
@@ -126,6 +183,8 @@ function App() {
       duration: 0,
       wait: 0,
       times: 0,
+      cur: 0,
+      check: true
     }
   ]
   );
@@ -143,6 +202,8 @@ function App() {
       duration:0,
       wait:0,
       times:0,
+      cur:0,
+      check: true,
     }
 
     let nnactivity={
@@ -151,6 +212,8 @@ function App() {
       duration:0,
       wait:0,
       times:0,
+      cur:0,
+      check: true,
     }
     exercises.push(nactivity)
     exercises.push(nnactivity)
@@ -160,7 +223,7 @@ function App() {
   return (
     <>
     <Header title="Exercise counter"/>
-    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart} getEx={getEx} addex={addex}/>
+    <Exercises exercises={exercises} onDelete={onDelete} onSet={onSet} onStart={onStart} playpause={playpause} addex={addex}/>
     </>
   );
 }
